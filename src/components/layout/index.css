@@ -1,0 +1,12 @@
+.sv-container {
+  height: calc(100vh - 60px);
+  background: #dfdfdf3b;
+  overflow: auto;
+}
+.content {
+  position: relative;
+  width: 1020px;
+  height: 94%;
+  margin: 20px auto;
+  background: #fff;
+}

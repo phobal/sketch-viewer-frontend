@@ -1,0 +1,14 @@
+header {
+  background-image: linear-gradient(-135deg, #5282EF 0%, #3C63DF 100%);
+  height: 60px;
+  line-height: 60px;
+  color: #FFF;
+}
+.sv-title {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding-left: 40px;
+  font-family: PingFangSC-Regular;
+  font-size: 20px;
+}
