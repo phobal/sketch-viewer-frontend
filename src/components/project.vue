@@ -3,7 +3,10 @@
     <p-card
       v-for="item in projectLists"
       @on-click="clickCard(item.id)"
-      :imgSrc="item.imgSrc"
+      @on-edit="editHandler"
+      @on-delete="deleteHandler"
+      :id="item._id"
+      :imgSrc="item.imgSrc || 'https://cn.vuejs.org/images/logo.png'"
       :name="item.name"
       :description="item.description"
       :key="item.name"
@@ -31,14 +34,22 @@ export default {
   },
   data() {
     return {
-      projectLists: [{
-        id: '123',
-        imgSrc: 'https://cn.vuejs.org/images/logo.png',
-        name: '机器学习平台',
-        description: '集模型创建、训练、测试和发布一站式解决方案',
-      }],
+      // projectLists: [{
+      //   id: '123',
+      //   imgSrc: 'https://cn.vuejs.org/images/logo.png',
+      //   name: '机器学习平台',
+      //   description: '集模型创建、训练、测试和发布一站式解决方案',
+      // }],
       showModal: false,
     };
+  },
+  computed: {
+    projectLists() {
+      return this.$store.state.project.list;
+    },
+  },
+  mounted() {
+    this.$store.dispatch('project/FETCH');
   },
   methods: {
     addProject() {
@@ -47,13 +58,28 @@ export default {
     okHandler(data) {
       // this.showModal = false;
       console.log('ok', data);  // eslint-disable-line
+      if (data._id) {  // eslint-disable-line
+        this.$store.dispatch('project/EDIT');
+      } else {
+        this.$store.dispatch('project/ADD', data);
+      }
+      this.closeHandler();
     },
     closeHandler() {
       this.showModal = false;
+      this.$store.commit('project/SET_FORMDATA', {});
     },
     clickCard(id) {
       console.log(id);  // eslint-disable-line
       this.$router.push(`/subproject/${id}`);
+    },
+    editHandler(id) {
+      this.showModal = true;
+      const formdata = this.$store.state.project.list.find(d => d._id === id);  // eslint-disable-line
+      this.$store.commit('project/SET_FORMDATA', JSON.parse(JSON.stringify(formdata)));
+    },
+    deleteHandler(id) {
+      this.$store.dispatch('project/REMOVE', id);
     },
   },
 };

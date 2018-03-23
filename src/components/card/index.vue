@@ -23,13 +23,18 @@
 export default {
   name: 'PCard',
   props: {
+    id: String,
     imgSrc: String,
     name: String,
     description: String,
   },
   methods: {
     editHandler(value) {
-      console.log(value);  // eslint-disable-line
+      if (value === 'edit') {
+        this.$emit('on-edit', this.id);
+      } else if (value === 'delete') {
+        this.$emit('on-delete', this.id);
+      }
     },
     clickHandler() {
       this.$emit('on-click');

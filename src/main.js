@@ -20,6 +20,7 @@ import {
 import 'iview/dist/styles/iview.css';
 import App from './App';
 import router from './router';
+import createStore from './store';
 
 // console.log(iView); // eslint-disable-line
 
@@ -37,10 +38,13 @@ Vue.component('BreadcrumbItem', BreadcrumbItem);
 Vue.component('Form', Form);
 Vue.component('FormItem', FormItem);
 Vue.component('Input', Input);
+
+const store = createStore();
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App />',
 });

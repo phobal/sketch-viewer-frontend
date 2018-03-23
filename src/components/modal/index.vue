@@ -26,11 +26,12 @@ export default {
   data() {
     return {
       loading: false,
-      projectFormData: {
-        name: '',
-        description: '',
-        imgSrc: '',
-      },
+      // projectFormData: {
+      //   _id: '',
+      //   name: '',
+      //   description: '',
+      //   imgSrc: '',
+      // },
     };
   },
   methods: {
@@ -40,6 +41,11 @@ export default {
     },
     asyncClose() {
       this.$emit('on-close');
+    },
+  },
+  computed: {
+    projectFormData() {
+      return this.$store.state.project.formdata;
     },
   },
   // computed: {
