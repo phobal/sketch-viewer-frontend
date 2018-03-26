@@ -19,19 +19,11 @@
 
 <script>
 export default {
+  /* eslint-disable */
   name: 'PModal',
-  props: {
-    show: Boolean,
-  },
   data() {
     return {
       loading: false,
-      // projectFormData: {
-      //   _id: '',
-      //   name: '',
-      //   description: '',
-      //   imgSrc: '',
-      // },
     };
   },
   methods: {
@@ -47,12 +39,13 @@ export default {
     projectFormData() {
       return this.$store.state.project.formdata;
     },
+    show: {
+      get: function () {
+        return this.$store.state.project.showModal;
+      },
+      set: function () {},
+    },
   },
-  // computed: {
-  //   showModal() {
-  //     return this.props.show;
-  //   },
-  // },
 };
 </script>
 

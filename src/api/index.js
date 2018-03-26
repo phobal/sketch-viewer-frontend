@@ -1,7 +1,8 @@
 import axios from 'axios';
+import BASEURL from './base';
 
 const instance = axios.create({
-  baseURL: 'http://127.0.0.1:8091/api',
+  baseURL: BASEURL,
   timeout: 10000,
 });
 
@@ -21,6 +22,14 @@ const project = {
   edit: config => createAPI('/project', 'PUT', config),
 };
 
+const subproject = {
+  getList: config => createAPI('/subproject', 'GET', config),
+  createSubProject: config => createAPI('/subproject', 'POST', config),
+  remove: config => createAPI('/subproject', 'DELETE', config),
+  edit: config => createAPI('/subproject', 'PUT', config),
+};
+
 export {
   project, // eslint-disable-line
+  subproject,
 };

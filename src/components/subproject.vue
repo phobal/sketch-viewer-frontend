@@ -6,16 +6,36 @@
         <BreadcrumbItem>子项目</BreadcrumbItem>
       </Breadcrumb>
     </div>
-    <Table size="large" :columns="columns1" :data="data1"></Table>
+    <Table size="large" :columns="columns1" :data="subprojectList"></Table>
     <div class="sv-button-contanier" @click="addProject">
       <Icon type="android-add" size="24" style="color: #FFF;"/>
     </div>
+    <SubModal
+      @on-ok="okHandler"
+      @on-close="closeHandler"
+    ></SubModal>
   </div>
 </template>
 
 <script>
+import SubModal from './submodalform';
+
 export default {
   name: 'SubProject',
+  components: {
+    SubModal,
+  },
+  beforeMount() {
+    const { id } = this.$route.params;  // eslint-disable-line
+    this.$store.commit('subproject/SET_PROJECTID', id);
+  },
+  mounted() {
+    const { id } = this.$route.params;  // eslint-disable-line
+    this.$store.dispatch('subproject/FETCH', id);
+  },
+  destroyed() {
+    this.$store.commit('subproject/SET_PROJECTID', null);
+  },
   data() {
     return {
       columns1: [{
@@ -23,10 +43,10 @@ export default {
         key: 'name',
       }, {
         title: '描述信息',
-        key: 'age',
+        key: 'description',
       }, {
         title: '创建时间',
-        key: 'creatAt',
+        key: 'createdAt',
       }, {
         title: '操作',
         key: 'action',
@@ -39,7 +59,7 @@ export default {
               },
               on: {
                 click: () => {
-                  this.preview(params.row.filepath);
+                  this.preview(params.row.filePath);
                 },
               },
             }, '查看'),
@@ -48,11 +68,21 @@ export default {
                 type: 'text',
                 size: 'small',
               },
+              on: {
+                click: () => {
+                  this.edit(params.row._id);  // eslint-disable-line
+                },
+              },
             }, '编辑'),
             h('Button', {
               props: {
                 type: 'text',
                 size: 'small',
+              },
+              on: {
+                click: () => {
+                  this.delete(params.row._id);  // eslint-disable-line
+                },
               },
             }, '删除'),
           ]);
@@ -66,11 +96,39 @@ export default {
       }],
     };
   },
+  computed: {
+    subprojectList() {
+      return this.$store.state.subproject.list;
+    },
+  },
   methods: {
-    addProject() {},
+    addProject() {
+      this.$store.commit('subproject/SET_MODAL', true);
+    },
     preview(path) {
       console.log(path);  // eslint-disable-line
       window.open(path);
+    },
+    edit(id) {
+      this.$store.commit('subproject/SET_MODAL', true);
+      const formdata = this.$store.state.subproject.list.find(d => d._id === id);  // eslint-disable-line
+      this.$store.commit('subproject/SET_FORMDATA', JSON.parse(JSON.stringify(formdata)));
+    },
+    delete(id) {
+      this.$store.dispatch('subproject/REMOVE', id);
+    },
+    okHandler(data) {
+      const { id } = this.$route.params;
+      if (data._id) {  // eslint-disable-line
+        this.$store.dispatch('subproject/EDIT');
+      } else {
+        this.$store.dispatch('subproject/ADD', Object.assign({}, data, { projectId: id }));
+      }
+      this.closeHandler();
+    },
+    closeHandler() {
+      this.$store.commit('subproject/SET_MODAL', false);
+      this.$store.commit('subproject/SET_FORMDATA', {});
     },
   },
 };

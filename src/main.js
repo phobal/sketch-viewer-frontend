@@ -16,6 +16,7 @@ import {
   Form,
   FormItem,
   Input,
+  Upload,
  } from 'iview' // eslint-disable-line
 import 'iview/dist/styles/iview.css';
 import App from './App';
@@ -38,6 +39,7 @@ Vue.component('BreadcrumbItem', BreadcrumbItem);
 Vue.component('Form', Form);
 Vue.component('FormItem', FormItem);
 Vue.component('Input', Input);
+Vue.component('Upload', Upload);
 
 const store = createStore();
 /* eslint-disable no-new */

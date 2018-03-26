@@ -15,10 +15,20 @@ export default {
     SET_MODAL(state, payload) {
       state.showModal = payload;
     },
+    SET_PROJECTID(state, payload) {
+      state.projectId = payload;
+    },
+    SET_FILEPATH(state, payload) {
+      state.formdata.filePath = payload;
+    },
   },
   actions: {
-    FETCH({ commit }) {
-      return api.project.getList().then((res) => {
+    FETCH({ commit }, projectId) {
+      return api.subproject.getList({
+        params: {
+          projectId,
+        },
+      }).then((res) => {
         if (res.data.success) {
           let result = res.data.data;  // eslint-disable-line
           result = result.map((d) => {
@@ -30,21 +40,21 @@ export default {
         }
       });
     },
-    ADD({ commit, dispatch }, data) {  // eslint-disable-line
+    ADD({ commit, dispatch, state }, data, projectId) {  // eslint-disable-line
       const body = JSON.parse(JSON.stringify(data));
-      return api.project.createProject({
+      return api.subproject.createSubProject({
         data: body,
       }).then((res) => {
         if (res.data.success) {
           Notice.success({
             title: '保存成功',
           });
-          dispatch('FETCH');
+          dispatch('FETCH', state.projectId);
         }
       });
     },
-    REMOVE({ dispatch }, _id) {
-      return api.project.remove({
+    REMOVE({ dispatch, state }, _id) {
+      return api.subproject.remove({
         params: {
           _id,
         },
@@ -53,12 +63,12 @@ export default {
           Notice.success({
             title: '删除成功',
           });
-          dispatch('FETCH');
+          dispatch('FETCH', state.projectId);
         }
       });
     },
     EDIT({ dispatch, state }) {
-      return api.project.edit({
+      return api.subproject.edit({
         data: {
           ...state.formdata,
         },
@@ -67,7 +77,7 @@ export default {
           Notice.success({
             title: '更新成功',
           });
-          dispatch('FETCH');
+          dispatch('FETCH', state.projectId);
         }
       });
     },
