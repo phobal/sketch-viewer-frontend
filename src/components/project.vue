@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { Modal } from 'iview';
 import PCard from './card';
 import PModal from './pmodalform';
 
@@ -30,6 +31,7 @@ export default {
   components: {
     PCard,
     PModal,
+    Modal,
   },
   computed: {
     projectLists() {
@@ -64,7 +66,16 @@ export default {
       this.$store.commit('project/SET_FORMDATA', JSON.parse(JSON.stringify(formdata)));
     },
     deleteHandler(id) {
-      this.$store.dispatch('project/REMOVE', id);
+      Modal.confirm({
+        title: '确认',
+        content: '<p>确定要删除这个项目么？</p>',
+        onOk: () => {
+          this.$store.dispatch('project/REMOVE', id);
+        },
+        onCancel: () => {
+          this.$store.commit('project/SET_MODAL', false);
+        },
+      });
     },
   },
 };

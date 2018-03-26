@@ -18,12 +18,14 @@
 </template>
 
 <script>
+import { Modal } from 'iview';
 import SubModal from './submodalform';
 
 export default {
   name: 'SubProject',
   components: {
     SubModal,
+    Modal,
   },
   beforeMount() {
     const { id } = this.$route.params;  // eslint-disable-line
@@ -115,7 +117,16 @@ export default {
       this.$store.commit('subproject/SET_FORMDATA', JSON.parse(JSON.stringify(formdata)));
     },
     delete(id) {
-      this.$store.dispatch('subproject/REMOVE', id);
+      Modal.confirm({
+        title: '确认',
+        content: '<p>确定要删除这个项目么？</p>',
+        onOk: () => {
+          this.$store.dispatch('subproject/REMOVE', id);
+        },
+        onCancel: () => {
+          this.$store.commit('subproject/SET_MODAL', false);
+        },
+      });
     },
     okHandler(data) {
       const { id } = this.$route.params;
