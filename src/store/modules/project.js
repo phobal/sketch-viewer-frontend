@@ -15,6 +15,9 @@ export default {
     SET_MODAL(state, payload) {
       state.showModal = payload;
     },
+    SET_FILEPATH(state, payload) {
+      state.formdata.imgSrc = payload;
+    },
   },
   actions: {
     FETCH({ commit }) {
