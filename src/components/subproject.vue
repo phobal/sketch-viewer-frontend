@@ -3,7 +3,7 @@
     <div class="sv-breadcrumb-content">
       <Breadcrumb>
         <BreadcrumbItem to="/">主项目页</BreadcrumbItem>
-        <BreadcrumbItem>子项目</BreadcrumbItem>
+        <BreadcrumbItem>{{ projectName }}</BreadcrumbItem>
       </Breadcrumb>
     </div>
     <Table size="large" :columns="columns1" :data="subprojectList"></Table>
@@ -34,6 +34,7 @@ export default {
   mounted() {
     const { id } = this.$route.params;  // eslint-disable-line
     this.$store.dispatch('subproject/FETCH', id);
+    this.$store.dispatch('project/FETCH');
   },
   destroyed() {
     this.$store.commit('subproject/SET_PROJECTID', null);
@@ -101,6 +102,16 @@ export default {
   computed: {
     subprojectList() {
       return this.$store.state.subproject.list;
+    },
+    projectName() {
+      let name = null;
+      const { id } = this.$route.params;  // eslint-disable-line
+      this.$store.state.project.list.find(d => {  // eslint-disable-line
+        if (d._id === id) {  // eslint-disable-line
+          name = d.name;
+        }
+      });
+      return name;
     },
   },
   methods: {
