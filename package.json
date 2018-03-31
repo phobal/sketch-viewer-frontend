@@ -11,6 +11,10 @@
     "build": "node build/build.js",
     "publish:prod": "scp -r ./dist/* monday@192.168.26.124:/home/monday/fengbo/sketch-viewer-fe/simpleserver/dist"
   },
+  "respository": {
+    "type": "git",
+    "url": "https://github.com/phobal/sketch-viewer-frontend.git"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.6.7",
