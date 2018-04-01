@@ -1,6 +1,6 @@
-# sketch-viewer-fe
+# sketch-viewer-frontend
 
-> A Vue.js project
+> sketch 设计稿管理工具（前端）
 
 ## Build Setup
 
@@ -18,4 +18,10 @@ npm run build
 npm run build --report
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## 技术栈
+
+* [Vue](https://github.com/vuejs/vue)
+* [vue-router](https://github.com/vuejs/vue-router)
+* [vuex](https://github.com/vuejs/vuex)
+* [axios](https://github.com/axios/axios)
+* [iview](https://github.com/iview/iview)
